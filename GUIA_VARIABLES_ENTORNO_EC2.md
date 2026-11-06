@@ -149,6 +149,41 @@ cd /opt/pedidos360/pedidos360-consumer
 java -jar target/pedidos360-consumer-0.0.1-SNAPSHOT.jar
 ```
 
+### Dejar el backend ejecutándose y liberar la terminal SSH
+
+Para una prueba manual en EC2, carga el archivo de entorno e inicia el backend
+con `nohup` en segundo plano. Así podrás seguir usando la misma sesión SSH:
+
+```bash
+set -a
+source /etc/pedidos360/pedidos360.env
+set +a
+
+cd /opt/pedidos360/pedidos360-backend
+nohup java -jar target/pedidos360-backend-0.0.1-SNAPSHOT.jar \
+  > backend.log 2>&1 < /dev/null &
+echo $! > backend.pid
+```
+
+Consulta el inicio y los errores con:
+
+```bash
+tail -f /opt/pedidos360/pedidos360-backend/backend.log
+```
+
+Presiona `Ctrl+C` para salir de la vista del registro; esto no detiene la
+aplicación. Puedes comprobar su proceso con
+`ps -p "$(cat /opt/pedidos360/pedidos360-backend/backend.pid)"` y detenerlo con:
+
+```bash
+kill "$(cat /opt/pedidos360/pedidos360-backend/backend.pid)"
+```
+
+Este método es para pruebas manuales: no reinicia el backend tras un reinicio
+de EC2 y el proceso podría terminar al cerrar la sesión SSH, según la
+configuración del host. Para mantenerlo como servicio y reiniciarlo
+automáticamente, usa `systemd` como se indica a continuación.
+
 La exportación de una terminal no sobrevive al cerrar sesión o reiniciar EC2.
 Para operar continuamente, configura cada servicio `systemd` con el mismo
 archivo, incluyendo estas directivas en su sección `[Service]` y ajustando las
