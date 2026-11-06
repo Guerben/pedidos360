@@ -89,6 +89,10 @@ Espera los healthchecks en estado healthy. El panel RabbitMQ, si se consulta des
 
 Ambos servicios leen las mismas variables de conexión; en EC2 establece variables de entorno o usa un gestor de secretos del laboratorio. No uses credenciales de ejemplo `postgres/postgres` ni `guest/guest` en un despliegue compartido.
 
+Para ver el inventario completo de variables, un archivo de entorno de ejemplo,
+los comandos de EC2 y la configuración persistente con systemd, consulta
+[GUIA_VARIABLES_ENTORNO_EC2.md](./GUIA_VARIABLES_ENTORNO_EC2.md).
+
 ```bash
 export DB_HOST=127.0.0.1
 export DB_PORT=5432
