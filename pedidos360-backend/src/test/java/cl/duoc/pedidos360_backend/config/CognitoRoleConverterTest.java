@@ -19,7 +19,7 @@ class CognitoRoleConverterTest {
 
         @BeforeEach
         void setUp() {
-                converter = new CognitoRoleConverter();
+                converter = new CognitoRoleConverter("Admin");
         }
 
         @Test
@@ -67,6 +67,45 @@ class CognitoRoleConverterTest {
                 assertTrue(authorities.contains("ROLE_Admin"));
                 assertTrue(authorities.contains("ROLE_Operador"));
                 assertTrue(authorities.contains("ROLE_Auditor"));
+        }
+
+        @Test
+        void convert_conGrupoAdministradorPersonalizado_mapeaAlRolAdminDeLaAplicacion() {
+                converter = new CognitoRoleConverter("PedidosAdministradores");
+                Jwt jwt = Jwt.withTokenValue("mock-jwt-token")
+                                .header("alg", "RS256")
+                                .claim("sub", "usuario-admin")
+                                .claim("cognito:groups", List.of("PedidosAdministradores"))
+                                .issuedAt(Instant.now())
+                                .expiresAt(Instant.now().plusSeconds(3600))
+                                .build();
+
+                AbstractAuthenticationToken token = converter.convert(jwt);
+
+                List<String> authorities = token.getAuthorities().stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .toList();
+                assertTrue(authorities.contains("ROLE_Admin"));
+                assertTrue(authorities.contains("ROLE_PedidosAdministradores"));
+        }
+
+        @Test
+        void convert_conGrupoAdminNoConfigurado_noConcedeRolAdministrador() {
+                converter = new CognitoRoleConverter("PedidosAdministradores");
+                Jwt jwt = Jwt.withTokenValue("mock-jwt-token")
+                                .header("alg", "RS256")
+                                .claim("sub", "usuario-no-admin")
+                                .claim("cognito:groups", List.of("Admin"))
+                                .issuedAt(Instant.now())
+                                .expiresAt(Instant.now().plusSeconds(3600))
+                                .build();
+
+                AbstractAuthenticationToken token = converter.convert(jwt);
+
+                List<String> authorities = token.getAuthorities().stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .toList();
+                assertFalse(authorities.contains("ROLE_Admin"));
         }
 
         @Test

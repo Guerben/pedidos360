@@ -83,8 +83,9 @@ export interface Pedido {
 
 Configurados en `environment.api.pedidosUrl`:
 
-- **URL Base en API Gateway:** `https://2c0yqndsn0.execute-api.us-east-1.amazonaws.com/test/api/pedidos`
+- **URL Base en API Gateway:** `https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos`
 - **URL Local de Desarrollo:** `http://localhost:8888/api/pedidos`
+- **Scopes custom de Cognito:** `pedidos360/pedidos.read`, `pedidos360/pedidos.write`, `pedidos360/admin.manage`.
 - **Cabecera requerida en todas las llamadas:**
   ```http
   Authorization: Bearer <ACCESS_TOKEN>
@@ -129,7 +130,7 @@ sequenceDiagram
 
 ### 5.1. Uso del Access Token vs ID Token
 
-- **Access Token:** Es el token transmitido en la cabecera `Authorization: Bearer <token>` hacia el backend Spring Boot. Contiene el claim `token_use: "access"`, el scope `rs-api-pedidos/pedidos-read` y los grupos del usuario. Es el estándar requerido por `spring-boot-starter-oauth2-resource-server`.
+- **Access Token:** Es el token transmitido en la cabecera `Authorization: Bearer <token>` hacia el backend Spring Boot. Contiene el claim `token_use: "access"`, los scopes solicitados al Resource Server y los grupos del usuario. API Gateway verifica el scope requerido por ruta; el backend verifica adicionalmente el grupo `Admin` para mutaciones y administración.
 - **ID Token:** Se conserva para la visualización de la identidad del usuario (`email`, `username`, `sub`) en la barra superior.
 
 ### 5.2. Control de Acceso por Roles (RBAC)

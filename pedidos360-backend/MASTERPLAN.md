@@ -38,7 +38,7 @@ Implementar y consolidar la arquitectura de backend para la plataforma **Pedidos
                                                ▼
                               ┌──────────────────────────────────┐
                               │     AWS Cognito (IDaaS CIAM)     │
-                              │  - User Pool: us-east-1_C1DQHPBOn│
+                              │  - Issuer: COGNITO_ISSUER_URI   │
                               │  - Grupos: Admin / Standard Users│
                               └──────────────────────────────────┘
                                                │

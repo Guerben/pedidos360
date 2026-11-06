@@ -209,10 +209,12 @@ export class AuthService {
    * compatibilidad con los roles y authorities de Spring Security.
    */
   isAdmin(): boolean {
+    const configuredAdminGroup = environment.cognito.adminGroup.trim().toLowerCase();
     const isMatchingAdmin = (groupName: any): boolean => {
       if (typeof groupName !== 'string') return false;
       const clean = groupName.trim().toLowerCase();
-      return clean === 'admin' || clean === 'role_admin';
+      return clean === configuredAdminGroup
+        || clean === `role_${configuredAdminGroup}`;
     };
 
     const hasAdminGroup = (groups: any): boolean => {

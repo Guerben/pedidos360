@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -37,6 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 @WebMvcTest(PedidoController.class)
 @Import({SecurityConfig.class, CognitoRoleConverter.class, CustomAuthenticationEntryPoint.class, CustomAccessDeniedHandler.class})
+@TestPropertySource(properties = "COGNITO_ISSUER_URI=https://cognito-idp.example.com/test-pool")
 class PedidoSecurityAuthorizationTest {
 
     @Autowired
@@ -153,4 +155,3 @@ class PedidoSecurityAuthorizationTest {
                 .andExpect(status().isNoContent());
     }
 }
-

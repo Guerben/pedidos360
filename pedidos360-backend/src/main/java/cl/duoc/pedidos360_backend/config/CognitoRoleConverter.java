@@ -3,6 +3,7 @@ package cl.duoc.pedidos360_backend.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +25,11 @@ import org.springframework.stereotype.Component;
 public class CognitoRoleConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     private final JwtGrantedAuthoritiesConverter defaultAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+    private final String adminGroup;
+
+    public CognitoRoleConverter(@Value("${app.security.cognito-admin-group:Admin}") String adminGroup) {
+        this.adminGroup = adminGroup;
+    }
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
@@ -40,7 +46,15 @@ public class CognitoRoleConverter implements Converter<Jwt, AbstractAuthenticati
         if (groups != null) {
             for (String group : groups) {
                 if (group != null && !group.trim().isEmpty()) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_" + group.trim()));
+                    String normalizedGroup = group.trim();
+                    if (normalizedGroup.equalsIgnoreCase(adminGroup.trim())) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_Admin"));
+                        if (!normalizedGroup.equalsIgnoreCase("Admin")) {
+                            authorities.add(new SimpleGrantedAuthority("ROLE_" + normalizedGroup));
+                        }
+                    } else if (!normalizedGroup.equalsIgnoreCase("Admin")) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_" + normalizedGroup));
+                    }
                 }
             }
         }
@@ -54,4 +68,3 @@ public class CognitoRoleConverter implements Converter<Jwt, AbstractAuthenticati
         return new JwtAuthenticationToken(jwt, authorities, principal);
     }
 }
-

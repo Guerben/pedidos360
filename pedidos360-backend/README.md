@@ -22,7 +22,7 @@ El proyecto opera como un **Backoffice de Catálogo e Inventario de Productos Te
 - **Framework:** Spring Boot `4.1.1` (parent en `pom.xml`), compilando con **Spring Framework `7.0.9`** (según dependencias Maven resueltas).
   - _Compatibilidad comprobada:_ La clase `org.springframework.web.client.RestClient` (introducida en Spring 6.1) y Spring AMQP son plenamente compatibles.
 - **Persistencia:** PostgreSQL 16 (`pedidos360_db` para pedidos/Outbox y `auditoria_db` para auditoría).
-- **Seguridad e Identidad:** Spring Security configurado como OAuth 2.0 Resource Server, validando tokens JWT emitidos por Amazon Cognito User Pool `us-east-1_C1DQHPBOn`.
+- **Seguridad e Identidad:** Spring Security configurado como OAuth 2.0 Resource Server, validando tokens JWT emitidos por el User Pool configurado en `COGNITO_ISSUER_URI`.
 - **Frontend Vinculado (`pedidos360-frontend`):** SPA Angular 22 con `angular-oauth2-oidc` implementando Authorization Code Flow con PKCE.
 
 ### 3. Entidad Real `Pedido.java` (Comparación con la Base de Datos)

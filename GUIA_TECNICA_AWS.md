@@ -30,17 +30,23 @@ Flujo: navegador → Cognito Hosted UI → API Gateway → productor Spring Boot
 
 ## 3. Preparar Cognito
 
-Los environments contienen actualmente estos valores de referencia: User Pool `us-east-1_C1DQHPBOn`, App Client `5f24qerscjusiu3apprn79gbdc`, dominio `us-east-1c1dqhpbon.auth.us-east-1.amazoncognito.com`. Confirma que existan y estén habilitados en la cuenta del laboratorio; si son de otra cuenta, reemplázalos en `pedidos360-frontend/src/environments/environment.ts`, `environment.development.ts` y en el issuer del backend.
+La configuración proporcionada para esta cuenta es: User Pool `us-east-1_8cvtGp65F`, App Client `1id63767oljtbenjicv5f9sh7l` y Hosted UI `https://us-east-18cvtgp65f.auth.us-east-1.amazoncognito.com`. Los valores del frontend se definen en `pedidos360-frontend/src/environments/environment.ts` para producción y en `environment.development.ts` para desarrollo. El backend recibe el issuer y el grupo administrador por `COGNITO_ISSUER_URI` y `COGNITO_ADMIN_GROUP`.
 
-En el User Pool configura:
+En el User Pool `us-east-1_8cvtGp65F` configura:
 
 1. Un App Client **público, sin client secret**, con Authorization Code grant y PKCE.
-2. Scopes `openid`, `email`, `profile` y `rs-api-pedidos/pedidos-read` (este último requiere el Resource Server y scope correspondiente en Cognito).
+2. Un Resource server con Identifier `pedidos360` y estos tres custom scopes: `pedidos.read`, `pedidos.write` y `admin.manage`. Habilita en el App Client los scopes `openid`, `email`, `profile` y los tres scopes completos `pedidos360/pedidos.read`, `pedidos360/pedidos.write`, `pedidos360/admin.manage`.
 3. Callback URL exacta del frontend publicado y logout URL exacta. Para desarrollo local agrega `http://localhost:4200/` en ambas listas.
 4. Un grupo Cognito llamado `Admin`; asigna al menos un usuario. El backend mapea el claim `cognito:groups` a la autoridad `ROLE_Admin`.
 5. Dominio de Hosted UI activo.
 
 No pongas secretos en el frontend. La aplicación usa Access Token para llamar a la API y el ID Token solo para mostrar datos de identidad.
+
+El frontend solicita los tres scopes custom en su Access Token. Estos scopes sirven
+para que API Gateway valide la clase de operación, pero **no distinguen por sí solos
+si el usuario pertenece al grupo Admin**: el App Client público puede solicitar los
+scopes habilitados. La autorización de escritura y administración sigue dependiendo
+del grupo Cognito `Admin` comprobado por el backend.
 
 ## 4. Preparar la instancia EC2
 
@@ -103,10 +109,11 @@ export RABBITMQ_PORT=5672
 export RABBITMQ_USER=pedidos360_app
 export RABBITMQ_PASSWORD='<password de RabbitMQ>'
 export COGNITO_ISSUER_URI='https://cognito-idp.<region>.amazonaws.com/<user-pool-id>'
+export COGNITO_ADMIN_GROUP='Admin'
 export CORS_ALLOWED_ORIGINS='https://<dominio-publico-del-frontend>'
 ```
 
-El backend toma el issuer JWT desde `COGNITO_ISSUER_URI` y los origenes permitidos desde `CORS_ALLOWED_ORIGINS`; ambos tienen valores locales por defecto en `pedidos360-backend/src/main/resources/application.properties`. Si RabbitMQ expone su API de administracion en una URL diferente, configura tambien `RABBIT_ADMIN_URL` (por defecto `http://<RABBITMQ_HOST>:15672/api`). El issuer debe corresponder al User Pool usado por el frontend.
+El backend toma el issuer JWT desde `COGNITO_ISSUER_URI` (obligatorio), el grupo administrador desde `COGNITO_ADMIN_GROUP` (por defecto `Admin`) y los origenes permitidos desde `CORS_ALLOWED_ORIGINS` (por defecto `http://localhost:4200`). Si RabbitMQ expone su API de administracion en una URL diferente, configura tambien `RABBIT_ADMIN_URL` (por defecto `http://<RABBITMQ_HOST>:15672/api`). El issuer y el grupo deben corresponder al Cognito usado por el frontend.
 
 Compila y ejecuta en procesos/terminales separados para la primera puesta en marcha:
 
@@ -128,32 +135,51 @@ Al iniciar, Spring crea/actualiza tablas en `pedidos360_db` y `auditoria_db`. Re
 
 ## 7. API Gateway hacia EC2
 
-El frontend referencia `https://2c0yqndsn0.execute-api.us-east-1.amazonaws.com/test/api/pedidos`; es un endpoint existente según los README, pero la implementación de infraestructura de API Gateway no está versionada aquí. En el laboratorio:
+El frontend referencia `https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos`. La implementación de infraestructura de API Gateway no está versionada aquí. Configura el JWT/Cognito authorizer con issuer `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_8cvtGp65F` y audience/client ID `1id63767oljtbenjicv5f9sh7l`. En cada ruta define el scope requerido:
+
+| Rutas | Scope requerido |
+|---|---|
+| `GET /api/pedidos` y `GET /api/pedidos/{id}` | `pedidos360/pedidos.read` |
+| `POST /api/pedidos`, `PUT /api/pedidos/{id}`, `DELETE /api/pedidos/{id}` | `pedidos360/pedidos.write` |
+| `POST /api/admin/queues`, `GET/DELETE /api/admin/queues/{nombre}`, `POST /api/admin/exchanges`, `DELETE /api/admin/exchanges/{nombre}` | `pedidos360/admin.manage` |
+
+Si creaste una HTTP API, configura un JWT authorizer con audience `1id63767oljtbenjicv5f9sh7l` y el issuer indicado. Si es una REST API, configura un Cognito User Pools authorizer con este User Pool. En ambos casos asigna el scope de la tabla a cada método/ruta. El backend sigue validando JWT y grupo `Admin`; los scopes de Gateway no sustituyen ese control de rol.
+
+Verifica que los métodos/path configurados en Gateway coincidan con los reales:
 
 1. Crea o adapta una API y el stage esperado por la URL configurada.
 2. Enruta `/api/pedidos` y `/api/pedidos/{id}` con `GET`, `POST`, `PUT`, `DELETE` hacia el backend en puerto 8888. Configura integración proxy/rutas para que el path final recibido por Spring sea `/api/pedidos...` (sin duplicar ni eliminar `/api`).
-3. Añade autorización JWT/Cognito si el tipo de API lo soporta en el diseño del curso. Spring Resource Server mantiene su propia validación de firma, issuer y autorización, por lo que API Gateway no reemplaza la seguridad del backend.
-4. Configura método `OPTIONS`/CORS para el dominio frontend, permitiendo `Authorization`, `Content-Type` y los métodos CRUD usados. Define `CORS_ALLOWED_ORIGINS` con el origen HTTPS definitivo del frontend antes de usarlo desde navegador.
+3. Usa el JWT/Cognito authorizer y scopes de la tabla anterior si el tipo de API lo soporta. Spring Resource Server mantiene su propia validación de firma, issuer y autorización, por lo que API Gateway no reemplaza la seguridad del backend.
+4. Configura método `OPTIONS`/CORS para el dominio frontend, permitiendo `Authorization`, `Content-Type` y los métodos CRUD usados. Define `CORS_ALLOWED_ORIGINS` con el origen HTTPS definitivo del frontend antes de usarlo desde navegador. El preflight `OPTIONS` no debe exigir scope.
 5. Si EC2 no es alcanzable directamente desde API Gateway, crea una integración privada apropiada (por ejemplo, VPC Link con un balanceador interno) de acuerdo con los recursos habilitados en el laboratorio. No publiques PostgreSQL ni RabbitMQ para resolver conectividad.
 
 La URL de API Gateway escrita en environment es un valor de referencia, no evidencia de que el stage o integración estén activos en la cuenta actual. Reemplázala al crear los recursos.
 
 ## 8. Compilar y publicar Angular
 
-Actualiza `environment.ts` con:
+Los valores de AWS del frontend están centralizados en los archivos de Angular:
 
-- issuer, client ID y dominio del User Pool del laboratorio;
-- callback/logout URL del hosting;
-- URL HTTPS de API Gateway terminada en `/api/pedidos`.
+| Configuración | Archivo | Qué valor usar |
+|---|---|---|
+| Issuer del User Pool | `src/environments/environment.ts` | `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_8cvtGp65F` |
+| App Client ID público | `src/environments/environment.ts` | `1id63767oljtbenjicv5f9sh7l` |
+| Dominio Hosted UI | `src/environments/environment.ts` | `https://us-east-18cvtgp65f.auth.us-east-1.amazoncognito.com` |
+| Scopes y grupo administrador | `src/environments/environment.ts` | `pedidos360/pedidos.read`, `pedidos360/pedidos.write`, `pedidos360/admin.manage` y grupo `Admin` |
+| Callback y cierre de sesión | Se calcula desde `window.location.origin` | Registra ambas URLs HTTPS exactas en Cognito; local usa `http://localhost:4200/` |
+| URL de API Gateway | `src/environments/environment.ts` → `api.pedidosUrl` | `https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos` |
 
-En desarrollo local, `environment.development.ts` apunta a `http://localhost:8888/api/pedidos`. En `pedidos360-frontend`:
+`environment.development.ts` conserva la API local `http://localhost:8888/api/pedidos`; allí puedes usar otro User Pool si tienes uno específico de desarrollo. Cognito no requiere credenciales AWS ni un client secret en el navegador. Los archivos Angular se incluyen en el bundle público: solo deben contener valores públicos de cliente.
+
+El backend debe recibir el mismo issuer y nombre de grupo. Configúralos como `COGNITO_ISSUER_URI` y `COGNITO_ADMIN_GROUP` en el entorno de EC2, junto con `CORS_ALLOWED_ORIGINS`. No hace falta editar código Java cuando cambien esos valores.
+
+`npm start` sirve la configuración de desarrollo. Para generar el bundle productivo con `environment.ts`:
 
 ```bash
 npm ci
 npm run build
 ```
 
-Publica el contenido generado en `dist/` en el hosting HTTPS aprobado por el laboratorio (por ejemplo, S3 con CloudFront si están habilitados). Configura fallback SPA a `index.html`, TLS y el mime type correcto. Añade el dominio de distribución a callback/logout URLs de Cognito y al CORS del backend/API Gateway. `ng serve` es solo para desarrollo:
+Publica el contenido generado en `dist/pedidos360-front/browser` en el hosting HTTPS aprobado por el laboratorio (por ejemplo, S3 con CloudFront si están habilitados). Configura fallback SPA a `index.html`, TLS y el mime type correcto. Añade el dominio de distribución a callback/logout URLs de Cognito y al CORS del backend/API Gateway. `ng serve` es solo para desarrollo:
 
 ```bash
 npm start

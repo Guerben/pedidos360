@@ -14,13 +14,19 @@ variables de PostgreSQL y RabbitMQ; Cognito y CORS solo aplican al backend.
 | `RABBITMQ_HOST` | Backend y consumer | Host o DNS privado de RabbitMQ. Usa `127.0.0.1` si está en Docker en la misma EC2. |
 | `RABBITMQ_PORT` | Backend y consumer | Puerto AMQP, normalmente `5672`. |
 | `RABBITMQ_USER` / `RABBITMQ_PASSWORD` | Backend y consumer | Credenciales del broker. |
-| `COGNITO_ISSUER_URI` | Solo backend | Issuer del User Pool, con formato `https://cognito-idp.<region>.amazonaws.com/<user-pool-id>`. |
+| `COGNITO_ISSUER_URI` | Solo backend | **Obligatoria.** Issuer del User Pool, con formato `https://cognito-idp.<region>.amazonaws.com/<user-pool-id>`. |
+| `COGNITO_ADMIN_GROUP` | Backend y build del frontend | Nombre exacto del grupo de Cognito que debe tener permisos de administrador. El valor interno de la aplicación sigue siendo `ROLE_Admin`. |
 | `CORS_ALLOWED_ORIGINS` | Solo backend | Origen del frontend publicado, por ejemplo `https://app.ejemplo.cl`. Si hay varios, sepáralos por coma. |
 | `RABBIT_ADMIN_URL` | Solo backend | URL HTTP(S) de la API de administración RabbitMQ, normalmente `http://<host>:15672/api`. Opcional si se usa ese valor predeterminado. |
 
 El backend usa la base `pedidos360_db` y el consumer usa `auditoria_db`; esos
 nombres están definidos en sus archivos `application.properties`. No es
 necesario crear una variable para el nombre de la base.
+
+Para este ambiente el issuer es
+`https://cognito-idp.us-east-1.amazonaws.com/us-east-1_8cvtGp65F` y el grupo
+administrador es `Admin`. En otro ambiente, sustituye el issuer y conserva el
+grupo que hayas configurado en Cognito y en el environment Angular.
 
 ## 2. Guardar la configuración en EC2
 
@@ -51,7 +57,8 @@ RABBITMQ_PORT=5672
 RABBITMQ_USER=pedidos360_app
 RABBITMQ_PASSWORD=REEMPLAZAR_POR_OTRA_CLAVE_ALEATORIA
 
-COGNITO_ISSUER_URI=https://cognito-idp.REGION.amazonaws.com/USER_POOL_ID
+COGNITO_ISSUER_URI=https://cognito-idp.us-east-1.amazonaws.com/us-east-1_8cvtGp65F
+COGNITO_ADMIN_GROUP=Admin
 CORS_ALLOWED_ORIGINS=https://DOMINIO-PUBLICO-DEL-FRONTEND
 RABBIT_ADMIN_URL=http://127.0.0.1:15672/api
 ```
@@ -168,20 +175,44 @@ sudo systemctl status pedidos360-backend pedidos360-consumer
 ## 5. Valores AWS que no van en estas variables
 
 - `COGNITO_ISSUER_URI` es el issuer del **User Pool**, no el Client ID ni el
-  dominio Hosted UI. El backend usa el issuer para validar los JWT.
+  dominio Hosted UI. Es obligatorio y debe coincidir con `cognito.issuer` del
+  environment Angular que se compila.
+- `COGNITO_ADMIN_GROUP` debe coincidir con el nombre del grupo configurado en el
+  campo `cognito.adminGroup` del environment Angular que se compila. El backend
+  mapea ese grupo a su rol interno `ROLE_Admin`.
 - El **Client ID**, el dominio Hosted UI y las URLs de callback/salida se
-  configuran en `pedidos360-frontend/src/environments/environment.ts` (y en
-  `environment.development.ts` para desarrollo local). Cognito también debe
-  tener las URLs de callback y salida registradas exactamente en la
-  configuración del App Client. El Client ID de una SPA es público; no agregues
-  un client secret al frontend.
+  configuran en `pedidos360-frontend/src/environments/environment.ts` para el
+  build productivo y en `environment.development.ts` para desarrollo. El
+  frontend selecciona estos archivos en el build Angular; al cambiar de AWS
+  cuenta/ambiente se actualizan esos archivos y se reconstruye el frontend, sin
+  modificar servicios ni lógica de aplicación. Cognito también debe registrar
+  exactamente las URLs de callback y salida calculadas a partir del origen del
+  sitio. El Client ID de una SPA es público; no agregues un client secret al
+  frontend.
 - La URL de API Gateway se configura en el environment de producción del
   frontend. Actualiza ese valor cuando exista el nuevo API/stage.
 - `CORS_ALLOWED_ORIGINS` debe ser el origen del frontend, sin la ruta de una
   página ni `/api`. Configura el mismo origen en CORS de API Gateway si aplica.
 - La EC2 necesita salida HTTPS para que Spring Security pueda consultar la
   configuración/JWKS pública de Cognito al validar JWT. No necesita credenciales
-  AWS para esa validación.
+  AWS para esa validación. Tampoco se requiere `AWS_ACCESS_KEY_ID`,
+  `AWS_SECRET_ACCESS_KEY` ni `AWS_REGION` para Cognito, porque el backend no
+  usa un SDK de AWS; la región está incluida en el issuer.
+
+Para el User Pool configurado, el Resource Server debe usar Identifier
+`pedidos360` y crear estos tres scopes:
+
+| Scope name en Cognito | Scope que se configura en API Gateway | Métodos/rutas |
+|---|---|---|
+| `pedidos.read` | `pedidos360/pedidos.read` | `GET /api/pedidos` y `GET /api/pedidos/{id}` |
+| `pedidos.write` | `pedidos360/pedidos.write` | `POST /api/pedidos`, `PUT /api/pedidos/{id}`, `DELETE /api/pedidos/{id}` |
+| `admin.manage` | `pedidos360/admin.manage` | `POST /api/admin/queues`, `GET/DELETE /api/admin/queues/{nombre}`, `POST /api/admin/exchanges`, `DELETE /api/admin/exchanges/{nombre}` |
+
+Habilita los tres scopes en el App Client junto con `openid`, `email` y
+`profile`. API Gateway debe exigir el scope correspondiente en cada ruta; deja
+`OPTIONS` sin scope para permitir CORS preflight. El scope es un permiso del
+cliente OAuth, no una comprobación de pertenencia a grupo: el backend sigue
+exigiendo `Admin` para escrituras y administración.
 
 El backend escucha en `8888`. El consumer escucha en `8889`, pero no requiere
 acceso público. Mantén `5432`, `5672` y `15672` fuera de las reglas de entrada
