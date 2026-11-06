@@ -1,0 +1,524 @@
+<!-- Fondo Ambiental Neón y Red Cibernética -->
+<div class="cyber-background-glow">
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
+  <div class="glow-orb-3"></div>
+</div>
+<div class="cyber-grid-overlay"></div>
+
+<div class="dashboard-wrapper" [class.dashboard-locked]="!autenticado">
+  <!-- Barra Superior: Navbar Glassmorphism Tech SaaS -->
+  <nav class="navbar navbar-expand-lg glass-navbar">
+    <div class="container-fluid px-3 px-md-4">
+      <!-- 1. Logo Animado (Efecto 3D Flotante con SVG Tecnológico) -->
+      <a class="brand-logo-container" href="#">
+        <div class="tech-logo-animated" title="Pedidos 360 Core">
+          <!-- Cubo Isométrico 3D Tecnológico con Brillo Neón -->
+          <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="cubeTop" x1="24" y1="4" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+              <linearGradient id="cubeLeft" x1="6" y1="14" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#4f46e5"/>
+                <stop offset="100%" stop-color="#312e81"/>
+              </linearGradient>
+              <linearGradient id="cubeRight" x1="42" y1="14" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="100%" stop-color="#0e7490"/>
+              </linearGradient>
+              <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+            <!-- Caras del Cubo Isométrico -->
+            <path d="M24 4L42 14.5L24 25L6 14.5L24 4Z" fill="url(#cubeTop)"/>
+            <path d="M6 14.5L24 25V44L6 33.5V14.5Z" fill="url(#cubeLeft)"/>
+            <path d="M42 14.5L24 25V44L42 33.5V14.5Z" fill="url(#cubeRight)"/>
+            <!-- Circuitos y Núcleo Interno -->
+            <path d="M24 10L35 16.5L24 23L13 16.5L24 10Z" stroke="#e0f2fe" stroke-width="1.5" stroke-opacity="0.7"/>
+            <circle cx="24" cy="16.5" r="3" fill="#ffffff" filter="url(#neonGlow)"/>
+            <line x1="24" y1="25" x2="24" y2="39" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="15" cy="27" r="1.5" fill="#a5f3fc"/>
+            <circle cx="33" cy="27" r="1.5" fill="#a5f3fc"/>
+          </svg>
+        </div>
+        <span class="brand-text">Pedidos 360</span>
+      </a>
+
+      <!-- Centro Superior: Servidor 3D Holográfico Flotante (Referencia de la imagen) -->
+      <div class="d-none d-lg-flex hero-server-showcase" title="AWS Cloud Infrastructure Active">
+        <div class="server-stack-graphic">
+          <svg width="110" height="75" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="serverTierTop" x1="60" y1="4" x2="60" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+              <linearGradient id="serverBody" x1="15" y1="15" x2="105" y2="70" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1e1b4b"/>
+                <stop offset="50%" stop-color="#0f172a"/>
+                <stop offset="100%" stop-color="#1e293b"/>
+              </linearGradient>
+            </defs>
+            <!-- Servidor Tier 1 (Superior) -->
+            <path d="M60 4L102 18L60 32L18 18L60 4Z" fill="url(#serverTierTop)" opacity="0.9"/>
+            <path d="M18 18L60 32V42L18 28V18Z" fill="#1e293b"/>
+            <path d="M102 18L60 32V42L102 28V18Z" fill="#0f172a"/>
+            <!-- Luces LED Tier 1 -->
+            <circle cx="50" cy="35" r="1.5" fill="#38bdf8"/>
+            <circle cx="56" cy="37" r="1.5" fill="#34d399"/>
+            <line x1="28" y1="24" x2="42" y2="28" stroke="#38bdf8" stroke-width="1.5" opacity="0.8"/>
+            
+            <!-- Servidor Tier 2 (Medio) -->
+            <path d="M18 32L60 46L102 32" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+            <path d="M18 32L60 46V56L18 42V32Z" fill="#1e293b"/>
+            <path d="M102 32L60 46V56L102 42V32Z" fill="#0f172a"/>
+            <!-- Luces LED Tier 2 -->
+            <circle cx="50" cy="49" r="1.5" fill="#38bdf8"/>
+            <circle cx="56" cy="51" r="1.5" fill="#38bdf8"/>
+            <line x1="28" y1="38" x2="42" y2="42" stroke="#38bdf8" stroke-width="1.5" opacity="0.8"/>
+            
+            <!-- Servidor Tier 3 (Base) -->
+            <path d="M18 46L60 60L102 46" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+            <path d="M18 46L60 60V70L18 56V46Z" fill="#1e293b"/>
+            <path d="M102 46L60 60V70L102 56V46Z" fill="#0f172a"/>
+            <!-- Luces LED Tier 3 -->
+            <circle cx="50" cy="63" r="1.5" fill="#a855f7"/>
+            <circle cx="56" cy="65" r="1.5" fill="#34d399"/>
+            <line x1="28" y1="52" x2="42" y2="56" stroke="#38bdf8" stroke-width="1.5" opacity="0.8"/>
+          </svg>
+        </div>
+        <!-- Halo Radiante de Base -->
+        <div class="server-halo-base"></div>
+      </div>
+      
+      <!-- Lado Derecho: Estado de Sesión / Cognito -->
+      <div class="d-flex align-items-center gap-2">
+        @if (autenticado) {
+          <div class="user-badge d-flex align-items-center gap-2">
+            <span class="rounded-circle" style="width: 8px; height: 8px; background-color: #34d399; box-shadow: 0 0 8px #34d399;" title="Sesión activa"></span>
+            <span class="text-secondary small">Correo:</span>
+            <strong class="text-info">{{ usuario }}</strong>
+            @if (esAdmin) {
+              <span class="badge bg-success-subtle text-success border border-success-subtle ms-1" style="font-size: 0.72rem;">ADMIN</span>
+            } @else {
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle ms-1" style="font-size: 0.72rem;">USUARIO</span>
+            }
+          </div>
+          <button class="btn btn-outline-secondary btn-sm" (click)="logout()" title="Cerrar sesión">
+            Cerrar Sesión
+          </button>
+        } @else {
+          <button type="button" class="btn btn-nav-login btn-sm" (click)="login()" title="Iniciar sesión con AWS Cognito">
+            Iniciar Sesión
+          </button>
+          <span class="badge-local-mode">Modo Local</span>
+        }
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenedor Principal del Panel de Administración -->
+  <div class="container my-4 px-3 px-md-4">
+
+    <!-- Mensajes de Notificación Flash / Alertas Glassmorphism -->
+    @if (mensajeAlerta) {
+      <div class="alert glass-alert glass-alert-{{ tipoAlerta }} alert-dismissible fade show mb-4 d-flex align-items-center justify-content-between" role="alert">
+        <div class="d-flex align-items-center gap-2">
+          @if (tipoAlerta === 'success') {
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          } @else if (tipoAlerta === 'danger') {
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+          } @else {
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          }
+          <span>{{ mensajeAlerta }}</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white" (click)="mensajeAlerta = null"></button>
+      </div>
+    }
+
+    <!-- 2. Sección Superior del Dashboard (Título y Botones de Acción) -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center pb-3 mb-4 border-bottom header-divider">
+      <div>
+        <h1 class="dashboard-header-title">Control de Pedidos y Despacho</h1>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <p class="dashboard-header-subtitle mb-0">Gestión interna de órdenes tecnológicas</p>
+          @if (autenticado) {
+            <span class="badge border" [ngClass]="esAdmin ? 'bg-success-subtle text-success border-success-subtle' : 'bg-warning-subtle text-warning border-warning-subtle'">
+              {{ esAdmin ? 'Permisos CRUD: Habilitados (Admin)' : 'Permisos CRUD: Restringidos (Lectura)' }}
+            </span>
+          }
+        </div>
+      </div>
+      
+      <!-- 4. Botones con Neón Glow -->
+      <div class="mt-3 mt-md-0 d-flex gap-3 align-items-center">
+        <!-- Botón + Nuevo Pedido (Gradiente Neón Cyan/Azul) -->
+        <button class="btn btn-neon-primary" 
+                (click)="abrirModalNuevo()" 
+                [disabled]="!esAdmin"
+                [attr.title]="esAdmin ? 'Registrar nuevo pedido' : 'Acción restringida: Requiere grupo Admin en Cognito'">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Nuevo Pedido
+          @if (!esAdmin) {
+            <span style="font-size: 0.75rem; margin-left: 2px;">🔒</span>
+          }
+        </button>
+
+        <!-- Botón Refrescar (Píldora Neón) -->
+        <button class="btn btn-neon-secondary" (click)="cargarPedidos()" title="Sincronizar con API">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [class.spin-active]="cargando">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Refrescar
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Contenedor y Tabla Glassmorphism de Alta Gama -->
+    <div class="glass-panel">
+      <div class="table-responsive">
+        <table class="table glass-table align-middle">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 130px;">ID</th>
+              <th scope="col">PRODUCTO</th>
+              <th scope="col" class="text-center" style="width: 110px;">CANTIDAD</th>
+              <th scope="col" class="text-center" style="width: 110px;">STOCK</th>
+              <th scope="col" class="text-center" style="width: 170px;">ESTADO</th>
+              <th scope="col" class="text-center" style="width: 230px;">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pedido of pedidos; track pedido.id) {
+              <tr>
+                <!-- ID con Efecto Neón Cyan -->
+                <td class="ps-4">
+                  <span class="order-id-badge">{{ pedido.id }}</span>
+                </td>
+
+                <!-- Producto con Miniatura de Imagen Real y Detalle -->
+                <td>
+                  <div class="product-cell">
+                    <img [src]="pedido.imageUrl" class="product-thumbnail" alt="img" onerror="this.src='https://via.placeholder.com/48/1e1b4b/ffffff?text=Tech'">
+
+                    <div class="product-info">
+                      <span class="product-name">{{ pedido.producto }}</span>
+                      <span class="product-specs">Inventario administrado en Pedidos 360</span>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Cantidad -->
+                <td class="text-center">
+                  <span class="quantity-badge">{{ pedido.cantidad }}</span>
+                </td>
+
+                <!-- Stock Disponible -->
+                <td class="text-center">
+                  <span class="stock-badge">{{ pedido.stock }}</span>
+                </td>
+
+                <!-- Estado (Píldoras Neón Glassmorphism) -->
+                <td class="text-center">
+                  @if (pedido.estado === 'ENTREGADO') {
+                    <span class="status-pill status-entregado">
+                      {{ etiquetaEstado(pedido.estado) }}
+                    </span>
+                  } @else if (pedido.estado === 'DISPONIBLE') {
+                    <span class="status-pill status-enviado">
+                      {{ etiquetaEstado(pedido.estado) }}
+                    </span>
+                  } @else if (pedido.estado === 'EN_PREPARACION') {
+                    <span class="status-pill status-preparacion">
+                      {{ etiquetaEstado(pedido.estado) }}
+                    </span>
+                  } @else if (pedido.estado === 'PENDIENTE') {
+                    <span class="status-pill status-default">
+                      {{ etiquetaEstado(pedido.estado) }}
+                    </span>
+                  } @else {
+                    <span class="status-pill status-default">
+                      {{ etiquetaEstado(pedido.estado) }}
+                    </span>
+                  }
+                </td>
+
+                <!-- Acciones (Botones de Píldora Neón) -->
+                <td class="text-center pe-4">
+                  <div class="d-inline-flex gap-2">
+                    <button class="btn btn-neon-action-edit" 
+                            (click)="abrirModalEditar(pedido)" 
+                            [disabled]="!esAdmin"
+                            [attr.title]="esAdmin ? 'Actualizar estado del pedido (PUT)' : 'Acción restringida: Requiere rol Admin'">
+                      Editar Estado
+                      @if (!esAdmin) {
+                        <span style="font-size: 0.75rem; margin-left: 2px;">🔒</span>
+                      }
+                    </button>
+                    <button class="btn btn-neon-action-cancel" 
+                            (click)="cancelarPedido(pedido.id)" 
+                            [disabled]="!esAdmin"
+                            [attr.title]="esAdmin ? 'Cancelar y remover pedido (DELETE)' : 'Acción restringida: Requiere rol Admin'">
+                      Cancelar
+                      @if (!esAdmin) {
+                        <span style="font-size: 0.75rem; margin-left: 2px;">🔒</span>
+                      }
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+
+            @if (pedidos.length === 0) {
+              <tr>
+                <td colspan="6" class="text-center py-5">
+                  <div class="py-4">
+                    <div class="mb-3 text-secondary">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                      </svg>
+                    </div>
+                    <p class="mb-3 text-light fs-5">No existen órdenes registradas en este momento.</p>
+                    <button class="btn btn-neon-primary" (click)="abrirModalNuevo()" [disabled]="!esAdmin">
+                      + Crear el primer pedido
+                      @if (!esAdmin) {
+                        <span style="font-size: 0.75rem; margin-left: 2px;">🔒</span>
+                      }
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pantalla de Bloqueo de Acceso Privado (Glassmorphism Overlay) -->
+@if (!autenticado) {
+  <div class="auth-lock-overlay">
+    <div class="auth-lock-card">
+      <!-- Resplandor Neón Interior -->
+      <div class="auth-lock-glow"></div>
+
+      <!-- Logotipo Cúbico Isométrico 3D en SVG -->
+      <div class="auth-lock-logo-wrapper">
+        <svg class="auth-lock-cube-svg" width="70" height="70" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cubeTopLock" x1="24" y1="4" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <linearGradient id="cubeLeftLock" x1="6" y1="14" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4f46e5"/>
+              <stop offset="100%" stop-color="#312e81"/>
+            </linearGradient>
+            <linearGradient id="cubeRightLock" x1="42" y1="14" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#06b6d4"/>
+              <stop offset="100%" stop-color="#0e7490"/>
+            </linearGradient>
+            <filter id="neonGlowLock" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+          <!-- Caras del Cubo Isométrico -->
+          <path d="M24 4L42 14.5L24 25L6 14.5L24 4Z" fill="url(#cubeTopLock)"/>
+          <path d="M6 14.5L24 25V44L6 33.5V14.5Z" fill="url(#cubeLeftLock)"/>
+          <path d="M42 14.5L24 25V44L42 33.5V14.5Z" fill="url(#cubeRightLock)"/>
+          <!-- Circuitos y Núcleo Interno -->
+          <path d="M24 10L35 16.5L24 23L13 16.5L24 10Z" stroke="#e0f2fe" stroke-width="1.5" stroke-opacity="0.7"/>
+          <circle cx="24" cy="16.5" r="3" fill="#ffffff" filter="url(#neonGlowLock)"/>
+          <line x1="24" y1="25" x2="24" y2="39" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <circle cx="15" cy="27" r="1.5" fill="#a5f3fc"/>
+          <circle cx="33" cy="27" r="1.5" fill="#a5f3fc"/>
+        </svg>
+      </div>
+
+      <!-- Título Principal -->
+      <h2 class="auth-lock-title">Pedidos 360</h2>
+
+      <!-- Insignia de Seguridad -->
+      <div class="auth-lock-badge-security">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Portal Seguro Backoffice</span>
+      </div>
+
+      <!-- Mensaje Visual o Alerta de Diagnóstico / Error de Autenticación -->
+      @if (errorAutenticacion) {
+        <div class="auth-lock-error-alert d-flex align-items-center gap-2 mb-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" class="flex-shrink-0">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span class="text-start">{{ errorAutenticacion }}</span>
+        </div>
+      }
+
+      <!-- Subtítulo o Nota Formal -->
+      <p class="auth-lock-subtitle">
+        Acceso restringido para administradores. Solicite sus credenciales al administrador del sistema.
+      </p>
+
+      <!-- Botón Principal -->
+      <button type="button" class="btn btn-auth-lock-primary" (click)="login()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10 17 15 12 10 7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+        Iniciar Sesión como Administrador
+      </button>
+
+      <!-- Pie Informativo de Seguridad Cloud -->
+      <div class="auth-lock-footer-info">
+        <span class="auth-lock-pill">AWS Cognito PKCE</span>
+        <span class="auth-lock-dot">•</span>
+        <span class="auth-lock-pill">API Gateway Protected</span>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 1: Crear Nuevo Pedido (POST) con Estilo Glassmorphism Dark -->
+@if (mostrarModalNuevo) {
+  <div class="modal fade show d-block glass-modal-backdrop" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-modal-content">
+        <div class="modal-header glass-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <span class="p-2 rounded-3" style="background: rgba(6, 182, 212, 0.15); color: #38bdf8;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+            <h5 class="modal-title glass-modal-title mb-0">Registrar Nuevo Pedido</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" (click)="cerrarModalNuevo()"></button>
+        </div>
+        <form (ngSubmit)="guardarNuevoPedido()">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="nuevoProducto" class="form-label">Nombre del Producto Tecnológico</label>
+              <input type="text" class="form-control" id="nuevoProducto" name="nuevoProducto"
+                     [(ngModel)]="nuevoPedido.producto"
+                     placeholder="Ej: Servidor Dell PowerEdge R750" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="nuevaImagen" class="form-label">URL de la Imagen</label>
+              <input type="text" class="form-control" id="nuevaImagen" name="nuevaImagen"
+                     [(ngModel)]="nuevoPedido.imageUrl"
+                     placeholder="URL de la imagen (ej: CDN o HTTPS)" required>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="nuevaCantidad" class="form-label">Cantidad de Unidades</label>
+                <input type="number" class="form-control" id="nuevaCantidad" name="nuevaCantidad" min="1"
+                       [(ngModel)]="nuevoPedido.cantidad" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="nuevoStock" class="form-label">Stock Disponible</label>
+                <input type="number" class="form-control" id="nuevoStock" name="nuevoStock" min="0"
+                       [(ngModel)]="nuevoPedido.stock" required>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="nuevoEstado" class="form-label">Estado Inicial</label>
+              <select class="form-select" id="nuevoEstado" name="nuevoEstado" [(ngModel)]="nuevoPedido.estado">
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="EN_PREPARACION">En preparación</option>
+                <option value="DISPONIBLE">Disponible</option>
+                <option value="ENTREGADO">Entregado</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer glass-modal-footer">
+            <button type="button" class="btn btn-neon-secondary" (click)="cerrarModalNuevo()">Cancelar</button>
+            <button type="submit" class="btn btn-neon-primary" [disabled]="cargando">
+              Guardar Pedido 
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 2: Editar Estado de Pedido (PUT) con Estilo Glassmorphism Dark -->
+@if (mostrarModalEditar && pedidoSeleccionado) {
+  <div class="modal fade show d-block glass-modal-backdrop" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-modal-content">
+        <div class="modal-header glass-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <span class="p-2 rounded-3" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </span>
+            <h5 class="modal-title glass-modal-title mb-0">Actualizar Estado: <span class="order-id-badge">{{ pedidoSeleccionado.id }}</span></h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" (click)="cerrarModalEditar()"></button>
+        </div>
+        <form (ngSubmit)="guardarEdicionEstado()">
+          <div class="modal-body p-4">
+            <div class="p-3 rounded-3 mb-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+              <span class="text-secondary small d-block mb-1">Producto Asociado:</span>
+              <strong class="text-white fs-6">{{ pedidoSeleccionado.producto }}</strong>
+            </div>
+
+            <div class="mb-3">
+              <label for="editarEstado" class="form-label">Nuevo Estado de Entrega</label>
+              <select class="form-select form-select-lg" id="editarEstado" name="editarEstado"
+                      [(ngModel)]="pedidoSeleccionado.estado">
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="EN_PREPARACION">En preparación</option>
+                <option value="DISPONIBLE">Disponible</option>
+                <option value="ENTREGADO">Entregado</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer glass-modal-footer">
+            <button type="button" class="btn btn-neon-secondary" (click)="cerrarModalEditar()">Cerrar</button>
+            <button type="submit" class="btn btn-neon-primary" [disabled]="cargando">
+              Actualizar Estado
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

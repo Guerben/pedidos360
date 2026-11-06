@@ -1,0 +1,18 @@
+# Generated build output and local tooling state
+**/target/
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# Local environment and diagnostic files
+**/.env
+**/*.log
+**/hs_err_pid*
+
+# Excluded course material and sample project
+*.pdf
+*.PDF
+*.pdf.txt
+/EJEMPLO_DE_RABBIT/
