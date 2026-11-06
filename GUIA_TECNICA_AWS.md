@@ -98,9 +98,11 @@ export RABBITMQ_HOST=127.0.0.1
 export RABBITMQ_PORT=5672
 export RABBITMQ_USER=pedidos360_app
 export RABBITMQ_PASSWORD='<password de RabbitMQ>'
+export COGNITO_ISSUER_URI='https://cognito-idp.<region>.amazonaws.com/<user-pool-id>'
+export CORS_ALLOWED_ORIGINS='https://<dominio-publico-del-frontend>'
 ```
 
-El productor valida JWT contra el issuer configurado en `pedidos360-backend/src/main/resources/application.properties`. Confirma que el issuer corresponda al User Pool usado arriba.
+El backend toma el issuer JWT desde `COGNITO_ISSUER_URI` y los origenes permitidos desde `CORS_ALLOWED_ORIGINS`; ambos tienen valores locales por defecto en `pedidos360-backend/src/main/resources/application.properties`. Si RabbitMQ expone su API de administracion en una URL diferente, configura tambien `RABBIT_ADMIN_URL` (por defecto `http://<RABBITMQ_HOST>:15672/api`). El issuer debe corresponder al User Pool usado por el frontend.
 
 Compila y ejecuta en procesos/terminales separados para la primera puesta en marcha:
 
@@ -127,7 +129,7 @@ El frontend referencia `https://2c0yqndsn0.execute-api.us-east-1.amazonaws.com/t
 1. Crea o adapta una API y el stage esperado por la URL configurada.
 2. Enruta `/api/pedidos` y `/api/pedidos/{id}` con `GET`, `POST`, `PUT`, `DELETE` hacia el backend en puerto 8888. Configura integración proxy/rutas para que el path final recibido por Spring sea `/api/pedidos...` (sin duplicar ni eliminar `/api`).
 3. Añade autorización JWT/Cognito si el tipo de API lo soporta en el diseño del curso. Spring Resource Server mantiene su propia validación de firma, issuer y autorización, por lo que API Gateway no reemplaza la seguridad del backend.
-4. Configura método `OPTIONS`/CORS para el dominio frontend, permitiendo `Authorization`, `Content-Type` y los métodos CRUD usados. El backend permite actualmente el origen local `http://localhost:4200`; ajusta la configuración CORS del backend para el origen HTTPS definitivo del frontend antes de usarlo desde navegador.
+4. Configura método `OPTIONS`/CORS para el dominio frontend, permitiendo `Authorization`, `Content-Type` y los métodos CRUD usados. Define `CORS_ALLOWED_ORIGINS` con el origen HTTPS definitivo del frontend antes de usarlo desde navegador.
 5. Si EC2 no es alcanzable directamente desde API Gateway, crea una integración privada apropiada (por ejemplo, VPC Link con un balanceador interno) de acuerdo con los recursos habilitados en el laboratorio. No publiques PostgreSQL ni RabbitMQ para resolver conectividad.
 
 La URL de API Gateway escrita en environment es un valor de referencia, no evidencia de que el stage o integración estén activos en la cuenta actual. Reemplázala al crear los recursos.
