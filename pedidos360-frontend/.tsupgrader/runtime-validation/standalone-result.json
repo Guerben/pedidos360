@@ -1,0 +1,224 @@
+{
+  "planHash": "7a79ac4bfa55134f66ce7ad4a2ddc0ae77002c604e20f28a245071345831e401",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-11-07T12:37:22.1031497Z",
+  "retryCount": 3,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 64036,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "production-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm. See \u0060npm help npmrc\u0060 for supported config options.\r\n\r\n\u003E pedidos360-front@0.0.0 build\r\n\u003E ng build\r\n\r\n\u003E Building...\r\n\u221A Building...\r\nInitial chunk files | Names         |  Raw size | Estimated transfer size\r\nmain-55LQIZ2A.js    | main          | 394.64 kB |                99.20 kB\r\nstyles-F3GXKUAX.css | styles        | 313 bytes |               313 bytes\r\n\r\n                    | Initial total | 394.96 kB |                99.52 kB\r\n\r\nApplication bundle generation complete. [11.111 seconds] - 2026-11-07T12:37:01.601Z\r\n\r\nOutput location: C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f\\dist\\pedidos360-front\r\n\r\n",
+        "durationMs": 18715
+      },
+      {
+        "name": "tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm. See \u0060npm help npmrc\u0060 for supported config options.\r\n\r\n\u003E pedidos360-front@0.0.0 test\r\n\u003E ng test --no-watch\r\n\r\n\u003E Building...\r\n\u221A Building...\r\nApplication bundle generation complete. [3.717 seconds] - 2026-11-07T12:37:12.964Z\r\n\r\n\r\n\u001B[1m\u001B[30m\u001B[46m RUN \u001B[49m\u001B[39m\u001B[22m \u001B[36mv4.1.11 \u001B[39m\u001B[90mC:/Users/guerb/AppData/Local/Temp/pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f\u001B[39m\r\n\r\n(node:10168) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\r\n(Use \u0060node --trace-warnings ...\u0060 to show where the warning was created)\r\n\r\n\u001B[2m Test Files \u001B[22m \u001B[1m\u001B[32m2 passed\u001B[39m\u001B[22m\u001B[90m (2)\u001B[39m\r\n\u001B[2m      Tests \u001B[22m \u001B[1m\u001B[32m6 passed\u001B[39m\u001B[22m\u001B[90m (6)\u001B[39m\r\n\u001B[2m   Start at \u001B[22m 09:37:13\r\n\u001B[2m   Duration \u001B[22m 6.88s\u001B[2m (transform 402ms, setup 1.79s, import 498ms, tests 1.95s, environment 6.65s)\u001B[22m\r\n\r\n",
+        "durationMs": 16607,
+        "testResults": {
+          "testFramework": "vitest",
+          "runnerDetectedFrom": "package_json",
+          "testsTotal": 6,
+          "testsPassed": 6,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": false
+        }
+      },
+      {
+        "name": "cognito-authorize-accepts-client-and-scopes",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "Cognito accepted the authorization request and redirected to Hosted UI login with the configured client, callback, scopes, and PKCE.\r\n",
+        "durationMs": 1078
+      },
+      {
+        "name": "development-server-serves-home",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "Angular dev server served the application shell.\r\n",
+        "durationMs": 167
+      }
+    ],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "args": [
+          "ci",
+          "--include=optional"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "packageManagerVersion": "11.19.1",
+        "cleanup": {
+          "RootProcessId": 22204,
+          "Completed": true,
+          "ProcessesObserved": 19,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "devServer",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "args": [
+          "run",
+          "start",
+          "--",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "4300"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "packageManagerVersion": "11.19.1",
+        "cleanup": {
+          "RootProcessId": 21936,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 6,
+          "Failure": null
+        }
+      },
+      {
+        "source": "production-build",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "args": [
+          "run",
+          "build"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "packageManagerVersion": "11.19.1",
+        "cleanup": {
+          "RootProcessId": 20684,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "tests-pass",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "args": [
+          "test",
+          "--",
+          "--no-watch"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+        "packageManagerVersion": "11.19.1",
+        "cleanup": {
+          "RootProcessId": 20040,
+          "Completed": true,
+          "ProcessesObserved": 10,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "cognito-authorize-accepts-client-and-scopes",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "args": [
+          "-e",
+          "const clientId = \u00271id63767oljtbenjicv5f9sh7l\u0027; const callback = \u0027http://localhost:4200/\u0027; const scopes = \u0027openid email profile pedidos360/pedidos.read pedidos360/pedidos.write pedidos360/admin.manage\u0027; const endpoint = new URL(\u0027https://us-east-18cvtgp65f.auth.us-east-1.amazoncognito.com/oauth2/authorize\u0027); endpoint.search = new URLSearchParams({client_id: clientId, response_type: \u0027code\u0027, scope: scopes, redirect_uri: callback, code_challenge: \u0027A\u0027.repeat(43), code_challenge_method: \u0027S256\u0027, state: \u0027runtime-validation\u0027}).toString(); fetch(endpoint, {redirect: \u0027manual\u0027}).then(response =\u003E { const location = response.headers.get(\u0027location\u0027); if (response.status !== 302 || !location) throw new Error(\u0027Expected Cognito to redirect to its login flow; received HTTP \u0027 \u002B response.status); const login = new URL(location, endpoint); const query = login.searchParams; if (login.pathname !== \u0027/login\u0027 || query.get(\u0027client_id\u0027) !== clientId || query.get(\u0027redirect_uri\u0027) !== callback || query.get(\u0027response_type\u0027) !== \u0027code\u0027 || query.get(\u0027scope\u0027) !== scopes || query.get(\u0027code_challenge_method\u0027) !== \u0027S256\u0027) throw new Error(\u0027Cognito redirect did not preserve the configured client, callback, scopes, and PKCE parameters: \u0027 \u002B location); console.log(\u0027Cognito accepted the authorization request and redirected to Hosted UI login with the configured client, callback, scopes, and PKCE.\u0027); }).catch(error =\u003E { console.error(error); process.exitCode = 1; });"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": null,
+        "packageManagerExecutable": null,
+        "packageManagerVersion": null,
+        "cleanup": {
+          "RootProcessId": 1868,
+          "Completed": true,
+          "ProcessesObserved": 2,
+          "ProcessesTerminated": 0,
+          "Failure": null
+        }
+      },
+      {
+        "source": "development-server-serves-home",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "args": [
+          "-e",
+          "fetch(\u0027http://127.0.0.1:4300/\u0027).then(async response =\u003E { if (response.status !== 200) throw new Error(\u0027Expected HTTP 200 from Angular dev server, received \u0027 \u002B response.status); const html = await response.text(); if (!html.includes(\u0027\u003Capp-root\u0027)) throw new Error(\u0027Angular root element was not present in the home page\u0027); console.log(\u0027Angular dev server served the application shell.\u0027); }).catch(error =\u003E { console.error(error); process.exitCode = 1; });"
+        ],
+        "cwd": "C:\\Users\\guerb\\AppData\\Local\\Temp\\pedidos360-cognito-validation-c7bd7e40830e499bacbad9601a5f6d2f",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\nodejs\\node.EXE",
+        "nodeVersion": "v26.10.0",
+        "packageManager": null,
+        "packageManagerExecutable": null,
+        "packageManagerVersion": null,
+        "cleanup": {
+          "RootProcessId": 17996,
+          "Completed": true,
+          "ProcessesObserved": 2,
+          "ProcessesTerminated": 0,
+          "Failure": null
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-11-07T12:30:00Z",
+  "generatedOnPlatform": "win32",
+  "projectType": "webapp",
+  "runtime": {
+    "kind": "node",
+    "executable": "node",
+    "expectedVersion": "v26.10.0"
+  },
+  "devServer": {
+    "command": "npm",
+    "args": [
+      "run",
+      "start",
+      "--",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "4300"
+    ],
+    "url": "http://127.0.0.1:4300/",
+    "readyTimeoutSeconds": 120
+  },
+  "setup": [
+    {
+      "command": "npm",
+      "args": [
+        "ci",
+        "--include=optional"
+      ],
+      "timeoutSeconds": 600
+    }
+  ],
+  "assertions": [
+    {
+      "name": "production-build",
+      "kind": "process",
+      "command": "npm",
+      "args": [
+        "run",
+        "build"
+      ],
+      "verificationMethod": "exit-code",
+      "expected": "0",
+      "timeoutSeconds": 300
+    },
+    {
+      "name": "tests-pass",
+      "kind": "process",
+      "command": "npm",
+      "args": [
+        "test",
+        "--",
+        "--no-watch"
+      ],
+      "verificationMethod": "test-results",
+      "expected": "0",
+      "timeoutSeconds": 300
+    },
+    {
+      "name": "cognito-authorize-accepts-client-and-scopes",
+      "kind": "process",
+      "command": "node",
+      "args": [
+        "-e",
+        "const clientId = '1id63767oljtbenjicv5f9sh7l'; const callback = 'http://localhost:4200/'; const scopes = 'openid email profile pedidos360/pedidos.read pedidos360/pedidos.write pedidos360/admin.manage'; const endpoint = new URL('https://us-east-18cvtgp65f.auth.us-east-1.amazoncognito.com/oauth2/authorize'); endpoint.search = new URLSearchParams({client_id: clientId, response_type: 'code', scope: scopes, redirect_uri: callback, code_challenge: 'A'.repeat(43), code_challenge_method: 'S256', state: 'runtime-validation'}).toString(); fetch(endpoint, {redirect: 'manual'}).then(response => { const location = response.headers.get('location'); if (response.status !== 302 || !location) throw new Error('Expected Cognito to redirect to its login flow; received HTTP ' + response.status); const login = new URL(location, endpoint); const query = login.searchParams; if (login.pathname !== '/login' || query.get('client_id') !== clientId || query.get('redirect_uri') !== callback || query.get('response_type') !== 'code' || query.get('scope') !== scopes || query.get('code_challenge_method') !== 'S256') throw new Error('Cognito redirect did not preserve the configured client, callback, scopes, and PKCE parameters: ' + location); console.log('Cognito accepted the authorization request and redirected to Hosted UI login with the configured client, callback, scopes, and PKCE.'); }).catch(error => { console.error(error); process.exitCode = 1; });"
+      ],
+      "verificationMethod": "exit-code",
+      "expected": "0",
+      "timeoutSeconds": 45
+    },
+    {
+      "name": "development-server-serves-home",
+      "kind": "process",
+      "command": "node",
+      "args": [
+        "-e",
+        "fetch('http://127.0.0.1:4300/').then(async response => { if (response.status !== 200) throw new Error('Expected HTTP 200 from Angular dev server, received ' + response.status); const html = await response.text(); if (!html.includes('<app-root')) throw new Error('Angular root element was not present in the home page'); console.log('Angular dev server served the application shell.'); }).catch(error => { console.error(error); process.exitCode = 1; });"
+      ],
+      "verificationMethod": "exit-code",
+      "expected": "0",
+      "timeoutSeconds": 30
+    }
+  ]
+}
