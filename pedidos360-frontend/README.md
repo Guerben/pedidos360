@@ -44,7 +44,7 @@ Este repositorio corresponde exclusivamente al **Frontend**.
    ```
    Abrir `http://localhost:4200/` en el navegador.
 
-El profile de desarrollo de Angular apunta al productor REST en `http://localhost:8888/api/pedidos`. Los estados válidos son `PENDIENTE`, `EN_PREPARACION`, `DISPONIBLE` y `ENTREGADO`. El frontend utiliza el ID devuelto por PostgreSQL y no mantiene un catálogo de pedidos simulado.
+El frontend se ejecuta localmente durante el desarrollo, pero consume el productor REST desplegado en EC2 a través de API Gateway (`https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos`). Los estados válidos son `PENDIENTE`, `EN_PREPARACION`, `DISPONIBLE` y `ENTREGADO`. El frontend utiliza el ID devuelto por PostgreSQL y no mantiene un catálogo de pedidos simulado.
 
 ---
 

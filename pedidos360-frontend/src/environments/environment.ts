@@ -27,9 +27,6 @@ export const environment = {
   },
   api: {
     // Endpoint protegido en AWS API Gateway que enruta hacia el backend Spring Boot (PostgreSQL)
-    pedidosUrl: 'https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos',
-
-    // Endpoint directo para desarrollo local contra Spring Boot (puerto real del backend)
-    localPedidosUrl: 'http://localhost:8888/api/pedidos'
+    pedidosUrl: 'https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos'
   }
 };

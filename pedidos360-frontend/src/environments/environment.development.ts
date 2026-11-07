@@ -20,17 +20,13 @@ export const environment = {
     scope: 'openid email profile pedidos360/pedidos.read pedidos360/pedidos.write pedidos360/admin.manage',
 
     // Grupo de Cognito mapeado al rol de administrador de la aplicación
-    adminGroup: 'Admin',
+    adminGroup: 'admin',
 
     // Dominio de Cognito Hosted UI para redirección de login y logout
     domain: 'https://us-east-18cvtgp65f.auth.us-east-1.amazoncognito.com'
   },
   api: {
-    // Desarrollo local: apunta al productor Spring Boot (puerto 8888)
-    // Las mutaciones CRUD disparan eventos Outbox → RabbitMQ → pedidos360-consumer
-    pedidosUrl: 'http://localhost:8888/api/pedidos',
-
-    // Alias explícito local (mismo valor)
-    localPedidosUrl: 'http://localhost:8888/api/pedidos'
+    // El frontend corre localmente; backend y consumer están en EC2 detrás de API Gateway.
+    pedidosUrl: 'https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos'
   }
 };

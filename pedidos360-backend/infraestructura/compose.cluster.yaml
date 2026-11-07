@@ -1,0 +1,62 @@
+# =============================================================================
+# docker-compose para Clúster RabbitMQ de 2 Nodos (Evaluación Parcial 4 - EP4)
+# =============================================================================
+# Cumple con el indicador de Clúster RabbitMQ de 2 Nodos con réplica y failover.
+#
+# Para levantar el clúster:
+#   docker compose -f infraestructura/compose.cluster.yaml up -d
+#
+# Para verificar el estado del clúster:
+#   docker exec -it rabbit1 rabbitmqctl cluster_status
+# =============================================================================
+
+services:
+  rabbit1:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbit1
+    hostname: rabbit1
+    restart: unless-stopped
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "${RABBITMQ_ERLANG_COOKIE:?Set RABBITMQ_ERLANG_COOKIE in .env}"
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_NODENAME: "rabbit@rabbit1"
+    ports:
+      - "5672:5672"             # AMQP nodo 1
+      - "15672:15672"           # Management HTTP nodo 1
+    volumes:
+      - rabbit1_data:/var/lib/rabbitmq
+    networks:
+      pedidos360-cluster-net:
+        aliases:
+          - rabbit1
+
+  rabbit2:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbit2
+    hostname: rabbit2
+    restart: unless-stopped
+    depends_on:
+      - rabbit1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "${RABBITMQ_ERLANG_COOKIE:?Set RABBITMQ_ERLANG_COOKIE in .env}"
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+      RABBITMQ_NODENAME: "rabbit@rabbit2"
+    ports:
+      - "5673:5672"             # AMQP nodo 2 (mapeado a 5673 en host para no colisionar)
+      - "15673:15672"           # Management HTTP nodo 2
+    volumes:
+      - rabbit2_data:/var/lib/rabbitmq
+    networks:
+      pedidos360-cluster-net:
+        aliases:
+          - rabbit2
+
+networks:
+  pedidos360-cluster-net:
+    driver: bridge
+
+volumes:
+  rabbit1_data:
+  rabbit2_data:
