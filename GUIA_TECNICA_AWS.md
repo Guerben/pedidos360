@@ -168,7 +168,7 @@ Los valores de AWS del frontend están centralizados en los archivos de Angular:
 | Callback y cierre de sesión | Se calcula desde `window.location.origin` | Registra ambas URLs HTTPS exactas en Cognito; local usa `http://localhost:4200/` |
 | URL de API Gateway | `src/environments/environment.ts` → `api.pedidosUrl` | `https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos` |
 
-`environment.development.ts` conserva la API local `http://localhost:8888/api/pedidos`; allí puedes usar otro User Pool si tienes uno específico de desarrollo. Cognito no requiere credenciales AWS ni un client secret en el navegador. Los archivos Angular se incluyen en el bundle público: solo deben contener valores públicos de cliente.
+Ambos environments usan la URL de API Gateway `https://3kmb7eji42.execute-api.us-east-1.amazonaws.com/dev/api/pedidos`; el frontend puede ejecutarse localmente mientras backend y consumer permanecen en EC2. Cognito no requiere credenciales AWS ni un client secret en el navegador. Los archivos Angular se incluyen en el bundle público: solo deben contener valores públicos de cliente.
 
 El backend debe recibir el mismo issuer y nombre de grupo. Configúralos como `COGNITO_ISSUER_URI` y `COGNITO_ADMIN_GROUP` en el entorno de EC2, junto con `CORS_ALLOWED_ORIGINS`. No hace falta editar código Java cuando cambien esos valores.
 
@@ -201,7 +201,7 @@ npm ci
 npm start
 ```
 
-En Windows reemplaza `./mvnw` por `mvnw.cmd`. El environment de desarrollo usa Cognito real y requiere callback `http://localhost:4200/` configurado en el User Pool. El frontend local consume directamente `localhost:8888`, no API Gateway.
+En Windows reemplaza `./mvnw` por `mvnw.cmd`. El environment de desarrollo usa Cognito real y requiere callback `http://localhost:4200/` configurado en el User Pool. Aunque el frontend corra localmente, las llamadas API se dirigen a API Gateway y desde allí al backend desplegado en EC2.
 
 ## 10. Comprobaciones de puesta en marcha
 
